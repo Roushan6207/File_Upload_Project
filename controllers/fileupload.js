@@ -36,6 +36,7 @@ exports.localFileUpload= async (req,res) => {
 }
 
 
+// new target == upload image...
 
 function isFileTypeSupported(type,supportedTypes){
   return supportedTypes.includes(type);
@@ -44,7 +45,7 @@ function isFileTypeSupported(type,supportedTypes){
 async function uploadFileToCloudinary(file,folder){
   const options= {folder};
   console.log("temp file path", file.tempFilePath);
-  return await cloudinary.uploader.upload(file,tempFilePath,options);
+  return await cloudinary.uploader.upload(file.tempFilePath,options);
 }
 
 //image upload  ka handler..
@@ -59,7 +60,7 @@ exports.imageUpload= async (req,res)  => {
     console.log(file);
    
     // validation...
-    const supportedTypes=("jpg","jpeg","png");
+    const supportedTypes=["jpg","jpeg","png"];
     const fileType= file.name.split('.')[1].toLowerCase();
     console.log("file TYpe:",fileType);
 
@@ -80,15 +81,16 @@ exports.imageUpload= async (req,res)  => {
     console.log(response);
 
    //db me entry save krna h..
-  //  const  fileData= await File.create ({
-  //   name,
-  //   tags,
-  //   email,
-  //   imageUrl
-  //  })
+   const  fileData= await File.create ({
+    name,
+    tags,
+    email,
+    imageUrl:response.secure_url,
+   })
 
   res.json({
     success:true,
+    imageUrl:response.secure_url,
     message:'Image Successfully Uploaded',
   });
 
