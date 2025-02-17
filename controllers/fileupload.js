@@ -36,7 +36,12 @@ exports.localFileUpload= async (req,res) => {
 }
 
 
-// new target == upload image...
+
+
+
+
+
+// new target == upload image on cloudinary...
 
 function isFileTypeSupported(type,supportedTypes){
   return supportedTypes.includes(type);
@@ -107,3 +112,5 @@ exports.imageUpload= async (req,res)  => {
   }
 
 }
+
+//
