@@ -30,13 +30,25 @@ fileSchema.post( "save" , async function(doc) {
         console.log("DOC",doc);
 
         //transporter...
-        let transporter= nodemailer.transporter({
+        let transporter= nodemailer.createTransport({
             host:process.env.MAIL_HOST,
             auth : {
                 user:process.env.MAIL_USER,
                 pass:process.env.MAIL_PASS,
             },
+        });
+
+        //send mail...
+
+        let info = await transporter.sendMail({
+            from:`Sultan- by roushan`,
+            to:doc.email,
+            subject:"New File Uploaded on Cloudinary",
+            html:`<h2>Hello Guys</h2> <p>File Uploaded View here : <a href="${doc.imageUrl}">${doc.imageUrl}</a> </p>`,
         })
+       
+        console.log("INFO",info);
+
     }
 
     catch(error){
